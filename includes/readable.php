@@ -202,6 +202,12 @@ class PF_Readability {
 			return $content;
 		}
 
+		$content = pressforward()->readability->make_html_readable( $html, $url );
+
+		return $content;
+	}
+
+	public function make_html_readable( $html, $url = null ){
 		//check if tidy exists to clean up the input.
 		if (function_exists('tidy_parse_string')) {
 			$tidy = tidy_parse_string($html, array('wrap' => 0, ), 'UTF8');
@@ -210,7 +216,6 @@ class PF_Readability {
 		}
 		// give it to Readability
 		$readability = new Readability($html, $url);
-
 		// print debug output?
 		// useful to compare against Arc90's original JS version -
 		// simply click the bookmarklet with FireBug's
