@@ -9,11 +9,22 @@ use Intraxia\Jaxion\Assets\ServiceProvider as ServiceProvider;
 use PressForward\Core\API\PostExtension;
 use PressForward\Core\API\FeedEndpoint;
 use PressForward\Core\API\ItemEndpoint;
+use PressForward\Core\API\DiscoveryEndpoint;
 
 
 class APIProvider extends ServiceProvider {
 
 	public function register( Container $container ){
+		$this->vendor = 'pf';
+		$this->api_version = 'v1';
+
+		$container->share(
+			'api.discovery_endpoint',
+			function( $container ){
+				return new DiscoveryEndpoint( $container->fetch('controller.metas'), $this->vendor, $this->api_version );
+			}
+		);
+
 		$container->share(
 			'api.post_extension',
 			function( $container ){
@@ -32,6 +43,7 @@ class APIProvider extends ServiceProvider {
 				return new ItemEndpoint( $container->fetch('controller.metas') );
 			}
 		);
+
 	}
 
 }
