@@ -1,5 +1,6 @@
 <?php
 //Out-of-namespace dependencies
+require_once(dirname(PF_ROOT).'/rest-api/plugin.php');
 require 'class-SplClassLoader.php';
 require 'Libraries/PFSimpleHtmlDom.php';
 require 'Libraries/URLResolver/URLResolver.php';
