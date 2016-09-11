@@ -1388,29 +1388,3 @@ function pf_message( $message = '', $display = false, $reset = false ){
 	$returned_message = pf_log( $message, false, $reset, true );
 	return $returned_message;
 }
-
-//var_dump(PF_FILE_PATH); die();
-/**
- * Ensures that this plugin is loaded after WP REST API plugin.
- *
- * Once WP_REST_Controller is in core this will not be necessary and will be
- * possibly removed or kept for backwards compatability.
- *
- * @see add_action( 'activated_plugin' ) && add_action( 'deactivated_plugin' ) Hooked into both.
- */
-function load_my_plugin_last() {
-    // Ensure path to this file is via main wp plugin path.
-    $wp_path_to_this_file = PF_FILE_PATH;
-    //var_dump($wp_path_to_this_file); die();
-    $this_plugin          = plugin_basename( trim( $wp_path_to_this_file ) );
-    $active_plugins       = get_option( 'active_plugins' );
-    $this_plugin_key      = array_search( $this_plugin, $active_plugins );
-
-    if ( in_array( $this_plugin, $active_plugins ) && end( $active_plugins ) !== $this_plugin ) {
-        array_splice( $active_plugins, $this_plugin_key, 1 );
-        array_push( $active_plugins, $this_plugin );
-        update_option( 'active_plugins', $active_plugins );
-    }
-}
-add_action( 'activated_plugin', 'load_my_plugin_last' );
-add_action( 'deactivated_plugin', 'load_my_plugin_last' );
